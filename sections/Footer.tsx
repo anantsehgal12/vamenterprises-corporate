@@ -7,7 +7,7 @@ import { Link001 } from "@/components/ui/skiper-ui/skiper40";
 
 export default function Footer() {
   return (
-    <section className="w-full bg-gradient-to-b pb-25 from-[#FFFFFF] to-[#5b8363] justify-center flex flex-col text-center items-center">
+    <section className="w-full bg-gradient-to-b pb-35 from-[#FFFFFF] to-[#5b8363] justify-center flex flex-col text-center items-center">
       <div className="w-full flex flex-col items-center gap-2 justify-center py-5">
         <Image
           src={Logo}
