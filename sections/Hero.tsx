@@ -4,6 +4,7 @@ import Image from "next/image";
 import Giftbox from "@/assets/box2_(1).png";
 import Star1 from "@/assets/star1_(1).png";
 import Star2 from "@/assets/star2_(1).png";
+import { Link001 } from "@/components/ui/skiper-ui/skiper40";
 
 export default function Hero() {
   return (
@@ -18,16 +19,21 @@ export default function Hero() {
             <h1 className="text-5xl md:text-6xl xl:text-7xl font-bold tracking-tight bg-gradient-to-b from-black to-[#254f13] text-transparent bg-clip-text mt-6">
               The One-Stop Gifting Solution
             </h1>
-            <p className="text-xl text-[#010D3E] tracking-tight mt-6">
+            <p className="text-xl text-[#013e0f] tracking-tight mt-6">
               Get Exclusive Deals with Bulk Offers Now! Explore our wide range
               of products and enjoy unbeatable prices. Don't miss out on this
               opportunity to save big on your gifting needs.
             </p>
             <div className="flex gap-2 items-center mt-[30px]">
-              <Button className="py-5">Get the Quote Now</Button>
+              <Button className="py-5 bg-[#112a06]">
+                <Link001 href="#">
+                  Get the Quote Now
+                </Link001>
+              </Button>
               <Button className="py-5" variant="ghost">
-                View Products
-                <ChevronRight />
+                <Link001 href="#">
+                  View Products
+                </Link001>
               </Button>
             </div>
           </div>

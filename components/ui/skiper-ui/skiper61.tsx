@@ -77,7 +77,7 @@ const SpringMouseFollow = () => {
           opacity: opacitySpring,
           scale: scaleSpring,
         }}
-        className="rounded-4xl size-10 bg-orange-500"
+        className="rounded-4xl size-10 bg-[#4ca626]"
       ></motion.div>
     </div>
   );

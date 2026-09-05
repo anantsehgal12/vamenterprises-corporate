@@ -4,6 +4,8 @@ import Image from "next/image";
 import MenuIcon from "@/assets/menu.svg";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
+import { Link001 } from "@/components/ui/skiper-ui/skiper40";
+import Sidebar from "@/components/custom/sidebar";
 
 export default function Header() {
   return (
@@ -25,19 +27,22 @@ export default function Header() {
               height={1024}
               className="h-15 w-auto"
             />
-            <MenuIcon className="h-5 w-5 md:hidden" />
+            <Sidebar />
+            
             <nav className="hidden md:flex gap-4 hidden md:flex gap-6 text-black/80 items-center">
-              <Link href="#" className="hover:underline">
+              <Link001 href="#">
                 Home
-              </Link>
-              <Link href="#" className="hover:underline">
+              </Link001>
+              <Link001 href="#">
                 About
-              </Link>
-              <Link href="#" className="hover:underline">
+              </Link001>
+              <Link001 href="#">
                 Contact
-              </Link>
-              <Button className="px-4 py-2 rounded-lg font-medium inline-flex tracking-tight">
-                Get for free
+              </Link001>
+              <Button className="px-4 py-4 rounded-lg font-medium inline-flex tracking-tight bg-[#112a06]">
+                <Link001 href="#">
+                  Get for free
+                </Link001>
               </Button>
             </nav>
           </div>

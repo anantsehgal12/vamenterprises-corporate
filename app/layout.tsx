@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { DynaPuff } from "next/font/google";
 import "./globals.css";
 import { cn } from "@/lib/utils";
-
+import { SpringCursorFollow } from "@/components/custom/spring-cursor-follow";
 
 const dynaPuff = DynaPuff({
   subsets: ["latin"],
@@ -20,7 +20,10 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       lang="en"
       className={cn("h-full", "antialiased overflow-x-hidden", dynaPuff.variable)}
     >
-      <body className="min-h-full flex flex-col">{children}</body>
+      <body className="min-h-full flex flex-col">
+        <SpringCursorFollow />
+        {children}
+      </body>
     </html>
   );
 }
