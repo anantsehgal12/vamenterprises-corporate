@@ -31,7 +31,7 @@ export async function POST(request: NextRequest) {
 
   const accountId = process.env.CLOUDFLARE_ACCOUNT_ID?.trim();
   const accessKeyId = process.env.R2_ACCESS_KEY_ID?.trim();
-  const secretAccessKey = process.env.R2_SECRET_ACCESS_KEY;
+  const secretAccessKey = process.env.R2_SECRET_ACCESS_KEY?.trim();
   const bucket = process.env.R2_BUCKET_NAME?.trim();
   const publicUrl = process.env.R2_PUBLIC_URL?.trim().replace(/\/+$/, "");
   if (!accountId || !accessKeyId || !secretAccessKey || !bucket || !publicUrl) {
@@ -66,7 +66,7 @@ export async function POST(request: NextRequest) {
   const dateStamp = amzDate.slice(0, 8);
   const scope = `${dateStamp}/auto/s3/aws4_request`;
   const signedHeaders = "content-type;host;x-amz-content-sha256;x-amz-date";
-  const canonicalHeaders = `content-type:${file.type}\nhost:${host}\nx-amz-content-sha256:${payloadHash}\nx-amz-date:${amzDate}`;
+  const canonicalHeaders = `content-type:${file.type}\nhost:${host}\nx-amz-content-sha256:${payloadHash}\nx-amz-date:${amzDate}\n`;
   const canonicalRequest = `PUT\n${canonicalUri}\n\n${canonicalHeaders}\n${signedHeaders}\n${payloadHash}`;
   const stringToSign = `AWS4-HMAC-SHA256\n${amzDate}\n${scope}\n${await sha256(canonicalRequest)}`;
   const dateKey = await hmac(new TextEncoder().encode(`AWS4${secretAccessKey}`), dateStamp);
@@ -88,7 +88,7 @@ export async function POST(request: NextRequest) {
       cache: "no-store",
     });
     if (!response.ok) {
-      console.error("R2 image upload failed with status", response.status);
+      console.error("R2 image upload failed:", response.status, await response.text());
       return NextResponse.json({ error: "Cloudflare R2 could not store the image. Check the bucket credentials and permissions." }, { status: 502 });
     }
     return NextResponse.json({ url: `${publicUrl}/${encodePath(key)}`, key });
