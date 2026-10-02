@@ -119,6 +119,7 @@ const Skiper16 = () => {
         ref={container}
         className="relative flex w-full flex-col items-center justify-center pb-[30vh] -top-25"
       >
+       
         {projects.map((project, i) => {
           const targetScale = Math.max(
             0.5,
@@ -130,6 +131,7 @@ const Skiper16 = () => {
               key={`p_${i}`}
               i={i}
               {...project}
+              href="/our-catalogue"
               progress={scrollYProgress}
               range={[start, 1]}
               targetScale={targetScale}

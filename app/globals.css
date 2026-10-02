@@ -145,3 +145,7 @@ body {
     @apply font-sans;
   }
 }
+::selection{
+  background: #539537;
+  color: #ffffff;
+}

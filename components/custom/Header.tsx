@@ -25,13 +25,15 @@ export default function Header() {
       <section className="py-4 px-4 flex justify-center sm:py-5 sm:px-6 lg:px-10">
         <div className="container">
           <div className="flex items-center justify-between">
-            <Image
-              src={Logo}
-              alt="VAM Enterprises Logo"
-              width={1024}
-              height={1024}
-              className="h-15 w-auto"
-            />
+            <Link href="/">
+              <Image
+                src={Logo}
+                alt="VAM Enterprises Logo"
+                width={1024}
+                height={1024}
+                className="h-15 w-auto z-8909"
+              />
+            </Link>
             <Sidebar />
             
             <nav className="hidden md:flex gap-4 hidden md:flex gap-6 text-black/80 items-center">
@@ -46,8 +48,16 @@ export default function Header() {
                 </Button>
               )}
               {isLoaded && user ? <UserButton /> : isLoaded ? <div className="flex items-center gap-2">
-                <SignInButton mode="modal"><Button variant="outline" className="rounded-lg border-[#112a06] px-4 py-4 font-medium text-[#112a06]">Sign in</Button></SignInButton>
-                <SignUpButton mode="modal"><Button className="rounded-lg bg-[#112a06] px-4 py-4 font-medium text-white hover:bg-[#244d32]">Sign up</Button></SignUpButton>
+                <Button variant="outline" className="rounded-lg border-[#112a06] px-4 py-4 font-medium text-[#112a06]">
+                  <Link href="/auth/sign-in">
+                    Sign in
+                  </Link>
+                </Button>
+                <Button className="rounded-lg bg-[#112a06] px-4 py-4 font-medium text-white hover:bg-[#244d32]">
+                  <Link href="/auth/sign-up">
+                    Sign up
+                  </Link>
+                </Button>
               </div> : null}
             </nav>
           </div>

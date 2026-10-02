@@ -68,7 +68,7 @@ const SpringMouseFollow = () => {
         opacitySpring.set(0);
         scaleSpring.set(0);
       }}
-      className="rounded-4xl bg-background mt-20 size-[500px] overflow-hidden"
+      className="rounded-4xl z-8908 bg-background mt-20 size-[500px] overflow-hidden"
     >
       <motion.div
         style={{
