@@ -5,6 +5,7 @@
 @custom-variant dark (&:is(.dark *));
 
 @theme inline {
+  --color-brand-accent: #4ca626;
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --font-dyna-puff: var(--font-dyna-puff);
@@ -49,8 +50,8 @@
 }
 
 body {
-  background: white;
-  color: black;
+  background: var(--background);
+  color: var(--foreground);
 }
 
 *{
@@ -83,13 +84,13 @@ body {
   --chart-5: oklch(0.269 0 0);
   --radius: 0.625rem;
   --sidebar: oklch(0.985 0 0);
-  --sidebar-foreground: oklch(0.145 0 0);
-  --sidebar-primary: oklch(0.205 0 0);
+  --sidebar-foreground: oklch(0.27 0.035 145);
+  --sidebar-primary: oklch(0.39 0.09 145);
   --sidebar-primary-foreground: oklch(0.985 0 0);
-  --sidebar-accent: oklch(0.97 0 0);
-  --sidebar-accent-foreground: oklch(0.205 0 0);
-  --sidebar-border: oklch(0.922 0 0);
-  --sidebar-ring: oklch(0.708 0 0);
+  --sidebar-accent: oklch(0.93 0.025 145);
+  --sidebar-accent-foreground: oklch(0.3 0.07 145);
+  --sidebar-border: oklch(0.89 0.025 145);
+  --sidebar-ring: oklch(0.58 0.1 145);
 }
 
 .dark {
@@ -116,15 +117,22 @@ body {
   --chart-3: oklch(0.439 0 0);
   --chart-4: oklch(0.371 0 0);
   --chart-5: oklch(0.269 0 0);
-  --sidebar: oklch(0.205 0 0);
-  --sidebar-foreground: oklch(0.985 0 0);
-  --sidebar-primary: oklch(0.488 0.243 264.376);
-  --sidebar-primary-foreground: oklch(0.985 0 0);
-  --sidebar-accent: oklch(0.269 0 0);
-  --sidebar-accent-foreground: oklch(0.985 0 0);
-  --sidebar-border: oklch(1 0 0 / 10%);
-  --sidebar-ring: oklch(0.556 0 0);
+  --sidebar: oklch(0.19 0.025 145);
+  --sidebar-foreground: oklch(0.94 0.015 145);
+  --sidebar-primary: oklch(0.57 0.12 145);
+  --sidebar-primary-foreground: oklch(0.99 0 0);
+  --sidebar-accent: oklch(0.27 0.035 145);
+  --sidebar-accent-foreground: oklch(0.96 0.015 145);
+  --sidebar-border: oklch(0.31 0.025 145);
+  --sidebar-ring: oklch(0.63 0.1 145);
 }
+
+#admin-root.dark { color: var(--foreground); }
+#admin-root.dark [class*="bg-white"] { background-color: var(--card); color: var(--card-foreground); }
+#admin-root.dark [class*="border-black"] { border-color: var(--border); }
+#admin-root.dark [class*="text-black/"] { color: var(--muted-foreground); }
+#admin-root.dark [class~="text-black"] { color: var(--foreground); }
+#admin-root.dark [class*="bg-[#fafbf9]"] { background-color: var(--muted); }
 
 @layer base {
   * {

@@ -13,14 +13,16 @@ import {
 } from "@/components/ui/sheet";
 import Image from "next/image";
 import Link from "next/link";
+import { SignInButton, SignUpButton, UserButton, useUser } from "@clerk/nextjs";
 
 const NAV_LINKS = [
-  { href: "#", label: "Home" },
-  { href: "#", label: "About" },
-  { href: "#", label: "Contact" },
+  { href: "/our-catalogue", label: "Our Catalogue" },
 ];
 
 export default function Sidebar() {
+  const { user, isLoaded } = useUser();
+  const isUserAdmin = isLoaded && user?.publicMetadata?.role === "admin";
+
   return (
     <Sheet>
       <SheetTrigger asChild>
@@ -59,9 +61,14 @@ export default function Sidebar() {
             ))}
             <SheetClose asChild>
               <Button className="px-4 py-4 rounded-lg font-medium inline-flex tracking-tight bg-[#112a06]">
-                <Link href="#">Get for free</Link>
+                <Link href="/get-your-quote">Get Your Quote</Link>
               </Button>
             </SheetClose>
+            {isUserAdmin && <SheetClose asChild><Link href="/admin" className="text-lg">Admin</Link></SheetClose>}
+            {isLoaded && user ? <UserButton /> : isLoaded ? <div className="flex flex-col items-center gap-3">
+              <SignInButton mode="modal"><Button variant="outline" className="min-w-32 border-[#112a06] text-[#112a06]">Sign in</Button></SignInButton>
+              <SignUpButton mode="modal"><Button className="min-w-32 bg-[#112a06] text-white hover:bg-[#244d32]">Sign up</Button></SignUpButton>
+            </div> : null}
           </nav>
 
           <Separator className="mt-10 w-2/3 bg-black/20" />

@@ -23,9 +23,18 @@ function AlertDialogTrigger({
 function AlertDialogPortal({
   ...props
 }: React.ComponentProps<typeof AlertDialogPrimitive.Portal>) {
-  return (
-    <AlertDialogPrimitive.Portal data-slot="alert-dialog-portal" {...props} />
+  const [container, setContainer] = React.useState<HTMLElement | null>(() =>
+    typeof document === "undefined" ? null : document.getElementById("admin-root")
   )
+
+  React.useEffect(() => {
+    if (!container) {
+      const adminRoot = document.getElementById("admin-root")
+      if (adminRoot) setContainer(adminRoot)
+    }
+  }, [container])
+
+  return <AlertDialogPrimitive.Portal data-slot="alert-dialog-portal" container={container ?? undefined} {...props} />
 }
 
 function AlertDialogOverlay({

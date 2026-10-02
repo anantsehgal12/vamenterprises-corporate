@@ -22,8 +22,17 @@ function PopoverContent({
   sideOffset = 4,
   ...props
 }: React.ComponentProps<typeof PopoverPrimitive.Content>) {
+  const [container, setContainer] = React.useState<HTMLElement | null>(() =>
+    typeof document === "undefined" ? null : document.getElementById("admin-root")
+  )
+
+  React.useEffect(() => {
+    const adminRoot = document.getElementById("admin-root")
+    if (adminRoot) setContainer(adminRoot)
+  }, [])
+
   return (
-    <PopoverPrimitive.Portal>
+    <PopoverPrimitive.Portal container={container ?? undefined}>
       <PopoverPrimitive.Content
         data-slot="popover-content"
         align={align}

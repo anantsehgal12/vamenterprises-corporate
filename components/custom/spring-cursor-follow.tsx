@@ -2,6 +2,7 @@
 
 import { motion, useSpring } from "framer-motion";
 import { useEffect, useState } from "react";
+import { usePathname } from "next/navigation";
 
 const SPRING = {
   mass: 0.1,
@@ -10,6 +11,8 @@ const SPRING = {
 };
 
 export function SpringCursorFollow() {
+  const pathname = usePathname();
+  const isAdminPage = pathname === "/admin" || pathname.startsWith("/admin/");
   const xSpring = useSpring(0, SPRING);
   const ySpring = useSpring(0, SPRING);
   const opacitySpring = useSpring(0, SPRING);
@@ -23,7 +26,7 @@ export function SpringCursorFollow() {
   }, []);
 
   useEffect(() => {
-    if (isTouch) return;
+    if (isTouch || isAdminPage) return;
 
     const handleMove = (e: PointerEvent) => {
       xSpring.set(e.clientX);
@@ -49,9 +52,9 @@ export function SpringCursorFollow() {
       document.removeEventListener("pointerenter", handleEnter);
       document.removeEventListener("pointerleave", handleLeave);
     };
-  }, [isTouch, xSpring, ySpring, opacitySpring, scaleSpring]);
+  }, [isTouch, isAdminPage, xSpring, ySpring, opacitySpring, scaleSpring]);
 
-  if (isTouch) return null;
+  if (isTouch || isAdminPage) return null;
 
   return (
     <motion.div

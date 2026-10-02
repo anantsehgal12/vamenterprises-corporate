@@ -30,6 +30,26 @@ function SelectValue({
   return <SelectPrimitive.Value data-slot="select-value" {...props} />
 }
 
+function SelectPortal({
+  children,
+  ...props
+}: React.ComponentProps<typeof SelectPrimitive.Portal>) {
+  const [container, setContainer] = React.useState<HTMLElement | null>(() =>
+    typeof document === "undefined" ? null : document.getElementById("admin-root")
+  )
+
+  React.useEffect(() => {
+    const adminRoot = document.getElementById("admin-root")
+    if (adminRoot) setContainer(adminRoot)
+  }, [])
+
+  return (
+    <SelectPrimitive.Portal container={container ?? undefined} {...props}>
+      {children}
+    </SelectPrimitive.Portal>
+  )
+}
+
 function SelectTrigger({
   className,
   size = "default",
@@ -64,7 +84,7 @@ function SelectContent({
   ...props
 }: React.ComponentProps<typeof SelectPrimitive.Content>) {
   return (
-    <SelectPrimitive.Portal>
+    <SelectPortal>
       <SelectPrimitive.Content
         data-slot="select-content"
         data-align-trigger={position === "item-aligned"}
@@ -85,7 +105,7 @@ function SelectContent({
         </SelectPrimitive.Viewport>
         <SelectScrollDownButton />
       </SelectPrimitive.Content>
-    </SelectPrimitive.Portal>
+    </SelectPortal>
   )
 }
 

@@ -1,8 +1,9 @@
-import CallToAction from "@/sections/CallToAction";
-import Footer from "@/sections/Footer";
-import Header from "@/sections/Header";
-import Hero from "@/sections/Hero";
-import Showcase from "@/sections/Showcase";
+'use client';
+import About from "@/components/custom/About";
+import Footer from "@/components/custom/Footer";
+import Header from "@/components/custom/Header";
+import Hero from "@/components/custom/Hero";
+import Showcase from "@/components/custom/Showcase";
 
 export default function Home() {
   return (
@@ -10,7 +11,7 @@ export default function Home() {
       <Header />
       <Hero />
       <Showcase />
-      <CallToAction />
+      <About />
       <Footer />
     </main>
   );

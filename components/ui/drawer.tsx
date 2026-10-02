@@ -19,7 +19,18 @@ function DrawerTrigger({
 function DrawerPortal({
   ...props
 }: React.ComponentProps<typeof DrawerPrimitive.Portal>) {
-  return <DrawerPrimitive.Portal data-slot="drawer-portal" {...props} />
+  const [container, setContainer] = React.useState<HTMLElement | null>(() =>
+    typeof document === "undefined" ? null : document.getElementById("admin-root")
+  )
+
+  React.useEffect(() => {
+    if (!container) {
+      const adminRoot = document.getElementById("admin-root")
+      if (adminRoot) setContainer(adminRoot)
+    }
+  }, [container])
+
+  return <DrawerPrimitive.Portal data-slot="drawer-portal" container={container ?? undefined} {...props} />
 }
 
 function DrawerClose({
