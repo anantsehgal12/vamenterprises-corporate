@@ -16,7 +16,11 @@ export const metadata: Metadata = {
     "VAM Enterprises is a leading provider of high-quality products and services, dedicated to delivering excellence and innovation to our customers.",
 };
 
-export default function RootLayout({ children }: LayoutProps<"/">) {
+export default function RootLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
   return (
     <html
       lang="en"

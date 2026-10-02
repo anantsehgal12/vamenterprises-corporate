@@ -51,9 +51,10 @@ function ids(value: unknown): number[] {
   return Array.isArray(value) ? value.map(Number).filter((id) => Number.isInteger(id) && id > 0) : [];
 }
 
-function imageUrl(value: unknown): string | null {
-  if (typeof value === "string") {
-    try { value = JSON.parse(value); } catch { return value.trim() || null; }
+function imageUrl(input: unknown): string | null {
+  let value: unknown = input;
+  if (typeof input === "string") {
+    try { value = JSON.parse(input); } catch { return input.trim() || null; }
   }
   if (!Array.isArray(value) || !value.length) return null;
   const primary = value.find((image) => image && typeof image === "object" && ((image as Record<string, unknown>).is_primary === true || (image as Record<string, unknown>).isPrimary === true)) ?? value[0];

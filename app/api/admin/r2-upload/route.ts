@@ -16,7 +16,7 @@ async function sha256(value: string | ArrayBuffer) {
   return hex(await crypto.subtle.digest("SHA-256", data));
 }
 
-async function hmac(key: ArrayBuffer | Uint8Array, value: string) {
+async function hmac(key: Uint8Array<ArrayBuffer>, value: string) {
   const imported = await crypto.subtle.importKey("raw", key, { name: "HMAC", hash: "SHA-256" }, false, ["sign"]);
   return new Uint8Array(await crypto.subtle.sign("HMAC", imported, new TextEncoder().encode(value)));
 }

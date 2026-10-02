@@ -18,7 +18,12 @@ import StarTwo from "@/assets/star2_(1).png";
 type Product = { id: number; name: string; slug: string; description: string | null; images: unknown; mrp: string | number; moq: number; brand_name: string | null; brand_logo_url: string | null; category_name: string | null };
 function imageUrl(value: unknown) {
   if (typeof value === "string") {
-    try { value = JSON.parse(value); } catch { return value.trim() || null; }
+    const stringValue = value;
+    try {
+      value = JSON.parse(value) as unknown;
+    } catch {
+      return stringValue.trim() || null;
+    }
   }
   if (!Array.isArray(value) || !value.length) return null;
   const primary = value.find((image) => image && typeof image === "object" && ((image as Record<string, unknown>).is_primary === true || (image as Record<string, unknown>).isPrimary === true)) ?? value[0];

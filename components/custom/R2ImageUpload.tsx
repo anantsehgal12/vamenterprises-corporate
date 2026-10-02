@@ -52,7 +52,7 @@ export function R2ImageUpload({ value, onChange, multiple = false, folder = "pro
         if (!multiple) break;
       }
       const next = multiple ? [...images.map((image) => image.storedValue), ...uploaded] : uploaded[0];
-      onChange(multiple ? JSON.stringify(next) : next);
+      onChange(multiple ? JSON.stringify(next) : (next as string));
     } catch (cause) {
       setError(cause instanceof Error ? cause.message : "Image upload failed.");
     } finally {
