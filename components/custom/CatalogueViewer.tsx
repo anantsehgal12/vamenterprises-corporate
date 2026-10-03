@@ -17,7 +17,7 @@ import Giftbox from "@/assets/box.png";
 import StarOne from "@/assets/star1_(1).png";
 import StarTwo from "@/assets/star2_(1).png";
 
-type Product = { id: number; name: string; slug: string; description: string | null; images: unknown; mrp: string | number; moq: number; brand_name: string | null; brand_logo_url: string | null; category_name: string | null };
+type Product = { id: number; name: string; slug: string; description: string | null; images: unknown; mrp: string | number; moq: number; brand_name: string | null; brand_logo_url: string | null; category_name: string | null; tags?: unknown };
 function imageUrl(value: unknown) {
   if (typeof value === "string") {
     const stringValue = value;
@@ -64,6 +64,19 @@ export function CatalogueViewer({ slug, publicCatalogue = false }: { slug?: stri
   const [pageSize, setPageSize] = useState(12);
   const [catalogueLinkId, setCatalogueLinkId] = useState<number>();
   const [quickViewProduct, setQuickViewProduct] = useState<Product | null>(null);
+  const [fetchedTags, setFetchedTags] = useState<{ id: number; tags: unknown } | null>(null);
+
+  // The catalogue API doesn't return tags, so load them from the product endpoint when a quick view opens.
+  useEffect(() => {
+    const id = quickViewProduct?.id;
+    if (id == null || quickViewProduct?.tags !== undefined) return;
+    let cancelled = false;
+    fetch(`/api/products/${id}`, { cache: "no-store" })
+      .then((response) => (response.ok ? response.json() : null))
+      .then((result) => { if (!cancelled && result?.product) setFetchedTags({ id, tags: result.product.tags }); })
+      .catch(() => {});
+    return () => { cancelled = true; };
+  }, [quickViewProduct?.id, quickViewProduct?.tags]);
   const [productSearch, setProductSearch] = useState("");
   const [brandFilter, setBrandFilter] = useState("all");
   const [categoryFilter, setCategoryFilter] = useState("all");
@@ -203,6 +216,7 @@ export function CatalogueViewer({ slug, publicCatalogue = false }: { slug?: stri
         brandName: quickViewProduct.brand_name,
         brandLogoUrl: quickViewProduct.brand_logo_url,
         categoryName: quickViewProduct.category_name,
+        tags: quickViewProduct.tags ?? (fetchedTags?.id === quickViewProduct.id ? fetchedTags.tags : undefined),
       } : null}
       open={Boolean(quickViewProduct)}
       onOpenChange={(open) => { if (!open) setQuickViewProduct(null); }}
