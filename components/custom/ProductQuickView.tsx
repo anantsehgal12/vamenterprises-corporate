@@ -184,8 +184,8 @@ export function ProductQuickView({ product, open, onOpenChange, footerAction, sh
                 {product.moq != null && <div className="flex items-start justify-between gap-4 py-3 text-sm"><dt className="shrink-0 text-muted-foreground">Minimum order</dt><dd className="text-right font-medium text-foreground">{product.moq} {product.moq === 1 ? "unit" : "units"}</dd></div>}
               </dl>
 
-              {product.description && <div className="mt-5 border-t border-brand-accent/20 pt-4"><h3 className="text-sm font-semibold text-foreground">Product description</h3><p className="mt-2 max-h-32 overflow-y-auto whitespace-pre-line pr-2 text-sm leading-6 text-muted-foreground">{product.description}</p></div>}
-              {showManagementFields && tags.length > 0 && <div className="mt-5 border-t border-brand-accent/20 pt-4"><h3 className="text-sm font-semibold text-foreground">Product tags</h3><div className="mt-3 flex flex-wrap gap-2">{tags.map((tag) => <Badge key={tag} variant="secondary" className="border border-brand-accent/20 bg-brand-accent/10 text-brand-accent">{tag}</Badge>)}</div></div>}
+              {product.description && <div className="mt-5 border-t border-brand-accent/20 pt-4"><h3 className="text-sm font-semibold text-foreground">Product description</h3><p className="mt-2 max-h-64 overflow-y-auto whitespace-pre-line pr-2 text-sm leading-6 text-muted-foreground">{product.description}</p></div>}
+              {tags.length > 0 && <div className="mt-5 border-t border-brand-accent/20 pt-4"><h3 className="text-sm font-semibold text-foreground">Product tags</h3><div className="mt-3 flex flex-wrap gap-2">{tags.map((tag) => <Badge key={tag} variant="secondary" className="border border-brand-accent/20 bg-brand-accent/10 text-brand-accent">{tag}</Badge>)}</div></div>}
 
               {product.id != null && <div ref={enquiryFormSectionRef} className="mt-5 scroll-mt-4 border-t border-brand-accent/20 pt-4">
                 {enquiryOpen && <div className="space-y-4 rounded-xl border border-brand-accent/20 bg-brand-accent/5 p-4 sm:p-5">
