@@ -2,10 +2,12 @@
 
 import Image from "next/image";
 import { useEffect, useMemo, useState } from "react";
-import { ArrowRight, LoaderCircle, Package, Search, SlidersHorizontal, Sparkles, X } from "lucide-react";
+import { ArrowRight, Check, ChevronDown, LoaderCircle, Package, Search, SlidersHorizontal, Sparkles, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
+import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandList } from "@/components/ui/command";
 import { Input } from "@/components/ui/input";
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import Header from "@/components/custom/Header";
 import { ProductQuickView } from "@/components/custom/ProductQuickView";
@@ -34,6 +36,26 @@ function imageUrl(value: unknown) {
     return typeof url === "string" ? url : null;
   }
   return null;
+}
+
+function SearchableSelect({ value, onChange, options, allLabel, label, searchLabel }: { value: string; onChange: (value: string) => void; options: string[]; allLabel: string; label: string; searchLabel: string }) {
+  const [open, setOpen] = useState(false);
+  const pick = (next: string) => { onChange(next); setOpen(false); };
+  return <Popover open={open} onOpenChange={setOpen}>
+    <PopoverTrigger asChild><Button type="button" variant="outline" role="combobox" aria-expanded={open} aria-label={label} className="h-10 w-full justify-between gap-2 bg-background px-3 font-normal text-foreground hover:bg-accent hover:text-accent-foreground"><span className="truncate">{value === "all" ? allLabel : value}</span><ChevronDown className="size-4 shrink-0 text-muted-foreground"/></Button></PopoverTrigger>
+    <PopoverContent align="start" className="w-[var(--radix-popover-trigger-width)] min-w-56 p-0">
+      <Command>
+        <CommandInput placeholder={searchLabel}/>
+        <CommandList className="max-h-64">
+          <CommandEmpty>Nothing found.</CommandEmpty>
+          <CommandGroup>
+            <CommandItem value={allLabel} onSelect={() => pick("all")}><Check className={`size-4 ${value === "all" ? "opacity-100" : "opacity-0"}`}/>{allLabel}</CommandItem>
+            {options.map((option) => <CommandItem key={option} value={option} onSelect={() => pick(option)}><Check className={`size-4 ${value === option ? "opacity-100" : "opacity-0"}`}/><span className="truncate">{option}</span></CommandItem>)}
+          </CommandGroup>
+        </CommandList>
+      </Command>
+    </PopoverContent>
+  </Popover>;
 }
 
 export function CatalogueViewer({ slug, publicCatalogue = false }: { slug?: string; publicCatalogue?: boolean }) {
@@ -146,8 +168,8 @@ export function CatalogueViewer({ slug, publicCatalogue = false }: { slug?: stri
           <div className="flex flex-wrap items-center justify-between gap-3"><div className="flex items-center gap-2"><SlidersHorizontal className="size-4 text-brand-accent"/><div><h2 className="text-xl font-semibold text-foreground">Find a product</h2><p className="text-xs text-muted-foreground">{filteredProducts.length} of {products.length} products</p></div></div>{(productSearch || brandFilter !== "all" || categoryFilter !== "all" || sortFilter !== "default" || minPrice || maxPrice) && <Button type="button" variant="ghost" onClick={clearFilters} className="h-9 gap-1.5 text-muted-foreground hover:text-foreground"><X className="size-4"/>Clear filters</Button>}</div>
           <div className="grid min-w-0 grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
             <div className="relative min-w-0 sm:col-span-2 lg:col-span-2 xl:col-span-2"><Search className="absolute left-3 top-1/2 size-4 -translate-y-1/2 text-muted-foreground"/><Input aria-label="Search catalogue products" value={productSearch} onChange={(event) => setProductSearch(event.target.value)} placeholder="Search by product, brand, or category" className="h-10 bg-background pl-9"/></div>
-            <Select value={brandFilter} onValueChange={setBrandFilter}><SelectTrigger aria-label="Filter by brand" className="h-10 w-full py-4.75 bg-background"><SelectValue placeholder="All brands"/></SelectTrigger><SelectContent><SelectItem value="all">All brands</SelectItem>{brandOptions.map((brand) => <SelectItem key={brand} value={brand}>{brand}</SelectItem>)}</SelectContent></Select>
-            <Select value={categoryFilter} onValueChange={setCategoryFilter}><SelectTrigger aria-label="Filter by category" className="h-10 w-full py-4.75 bg-background"><SelectValue placeholder="All categories"/></SelectTrigger><SelectContent><SelectItem value="all">All categories</SelectItem>{categoryOptions.map((category) => <SelectItem key={category} value={category}>{category}</SelectItem>)}</SelectContent></Select>
+            <SearchableSelect value={brandFilter} onChange={setBrandFilter} options={brandOptions} allLabel="All brands" label="Filter by brand" searchLabel="Search brands..."/>
+            <SearchableSelect value={categoryFilter} onChange={setCategoryFilter} options={categoryOptions} allLabel="All categories" label="Filter by category" searchLabel="Search categories..."/>
             <Select value={sortFilter} onValueChange={setSortFilter}><SelectTrigger aria-label="Sort catalogue products" className="h-10 w-full py-4.75 bg-background"><SelectValue/></SelectTrigger><SelectContent><SelectItem value="default">Recommended</SelectItem><SelectItem value="price_asc">Price: low to high</SelectItem><SelectItem value="price_desc">Price: high to low</SelectItem><SelectItem value="name_asc">Name: A to Z</SelectItem></SelectContent></Select>
             <Input aria-label="Minimum price" type="number" min="0" value={minPrice} onChange={(event) => setMinPrice(event.target.value)} placeholder="Min price" className="h-10 bg-background"/>
             <Input aria-label="Maximum price" type="number" min="0" value={maxPrice} onChange={(event) => setMaxPrice(event.target.value)} placeholder="Max price" className="h-10 bg-background"/>

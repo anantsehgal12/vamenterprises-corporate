@@ -8,6 +8,7 @@ import { ArrowLeft, Check, ChevronDown, Clipboard, LoaderCircle, Search, Send, S
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Checkbox } from "@/components/ui/checkbox";
+import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandList } from "@/components/ui/command";
 import { Input } from "@/components/ui/input";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
@@ -68,13 +69,25 @@ function imageUrl(input: unknown): string | null {
 }
 
 function MultiFilter({ label, options, values, onChange }: { label: string; options: Option[]; values: number[]; onChange: (values: number[]) => void }) {
-  const toggle = (id: number, checked: boolean) => onChange(checked ? [...values, id] : values.filter((value) => value !== id));
-  return <Popover>
-    <PopoverTrigger asChild><Button type="button" variant="outline" className="h-10 w-full justify-between gap-2 rounded-lg border-input bg-background px-3 text-left font-normal text-foreground hover:bg-accent hover:text-accent-foreground"><span className="truncate">{values.length ? `${label}: ${values.length} selected` : `All ${label.toLowerCase()}`}</span><ChevronDown className="size-4 shrink-0 text-muted-foreground"/></Button></PopoverTrigger>
-    <PopoverContent align="start" className="w-[var(--radix-popover-trigger-width)] min-w-64 border-border bg-popover p-2 text-popover-foreground shadow-lg">
-      <Button type="button" variant="ghost" size="sm" onClick={() => onChange([])} aria-pressed={values.length === 0} className={`mb-1 h-9 w-full justify-start gap-2 px-2.5 text-sm ${values.length === 0 ? "bg-accent text-accent-foreground" : "text-foreground"}`}><Check className={`size-4 ${values.length === 0 ? "opacity-100" : "opacity-0"}`}/>All {label.toLowerCase()}</Button>
-      <div className="max-h-64 space-y-1 overflow-y-auto border-t border-border pt-1">{options.map((option) => <label key={option.id} className="flex cursor-pointer items-center gap-2.5 rounded-md px-2.5 py-2 text-sm text-foreground transition-colors hover:bg-accent hover:text-accent-foreground"><Checkbox checked={values.includes(option.id)} onCheckedChange={(checked) => toggle(option.id, checked === true)}/><span className="truncate">{option.name}</span></label>)}</div>
-      {values.length > 0 && <Button type="button" variant="ghost" size="sm" onClick={() => onChange([])} className="mt-1 h-8 w-full justify-center text-muted-foreground hover:bg-accent hover:text-accent-foreground">Clear selection</Button>}
+  const [open, setOpen] = useState(false);
+  const toggle = (id: number) => onChange(values.includes(id) ? values.filter((value) => value !== id) : [...values, id]);
+  return <Popover open={open} onOpenChange={setOpen}>
+    <PopoverTrigger asChild><Button type="button" variant="outline" role="combobox" aria-expanded={open} className="h-10 w-full justify-between gap-2 rounded-lg border-input bg-background px-3 text-left font-normal text-foreground hover:bg-accent hover:text-accent-foreground"><span className="truncate">{values.length ? `${label}: ${values.length} selected` : `All ${label.toLowerCase()}`}</span><ChevronDown className="size-4 shrink-0 text-muted-foreground"/></Button></PopoverTrigger>
+    <PopoverContent align="start" className="w-[var(--radix-popover-trigger-width)] min-w-64 border-border bg-popover p-0 text-popover-foreground shadow-lg">
+      {/* Match on the option name only (value is the id, name is passed as a keyword) */}
+      <Command filter={(_value, search, keywords) => (keywords?.[0] ?? "").toLowerCase().includes(search.trim().toLowerCase()) ? 1 : 0}>
+        <CommandInput placeholder={`Search ${label.toLowerCase()}...`}/>
+        <CommandList className="max-h-64">
+          <CommandEmpty>No {label.toLowerCase()} found.</CommandEmpty>
+          <CommandGroup>
+            {options.map((option) => <CommandItem key={option.id} value={String(option.id)} keywords={[option.name]} onSelect={() => toggle(option.id)} className="gap-2.5 px-2.5 py-2">
+              <Checkbox checked={values.includes(option.id)} tabIndex={-1} className="pointer-events-none"/>
+              <span className="truncate">{option.name}</span>
+            </CommandItem>)}
+          </CommandGroup>
+        </CommandList>
+        {values.length > 0 && <div className="border-t border-border p-1"><Button type="button" variant="ghost" size="sm" onClick={() => onChange([])} className="h-8 w-full justify-center text-muted-foreground hover:bg-accent hover:text-accent-foreground">Clear selection</Button></div>}
+      </Command>
     </PopoverContent>
   </Popover>;
 }
