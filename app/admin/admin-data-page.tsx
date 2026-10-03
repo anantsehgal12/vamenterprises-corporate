@@ -271,7 +271,7 @@ export function AdminDataPage({ table, config }: { table: string; config: TableC
     description: typeof viewing.description === "string" ? viewing.description : null,
     images: viewing.images,
     mrp: viewing.mrp as number | string | null,
-    moq: Number(viewing.moq ?? 1),
+    moq: Number(viewing.moq ?? null),
     stock_status: String(viewing.stock_status ?? "in_stock"),
     is_active: Boolean(viewing.is_active),
     tags: viewing.tags,
