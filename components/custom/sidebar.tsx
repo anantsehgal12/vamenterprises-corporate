@@ -17,6 +17,7 @@ import { SignInButton, SignUpButton, UserButton, useUser } from "@clerk/nextjs";
 
 const NAV_LINKS = [
   { href: "/our-catalogue", label: "Our Catalogue" },
+  { href: "/get-your-quote", label: "Get Your Quote" },
 ];
 
 export default function Sidebar() {
@@ -26,11 +27,7 @@ export default function Sidebar() {
   return (
     <Sheet>
       <SheetTrigger asChild>
-        <button
-          type="button"
-          aria-label="Open menu"
-          className="md:hidden"
-        >
+        <button type="button" aria-label="Open menu" className="md:hidden">
           <MenuIcon className="h-5 w-5" />
         </button>
       </SheetTrigger>
@@ -64,11 +61,28 @@ export default function Sidebar() {
                 <Link href="/get-your-quote">Get Your Quote</Link>
               </Button>
             </SheetClose>
-            {isUserAdmin && <SheetClose asChild><Link href="/admin" className="text-lg">Admin</Link></SheetClose>}
-            {isLoaded && user ? <UserButton /> : isLoaded ? <div className="flex flex-col items-center gap-3">
-              <SignInButton mode="modal"><Button variant="outline" className="min-w-32 border-[#112a06] text-[#112a06]">Sign in</Button></SignInButton>
-              <SignUpButton mode="modal"><Button className="min-w-32 bg-[#112a06] text-white hover:bg-[#244d32]">Sign up</Button></SignUpButton>
-            </div> : null}
+            {isUserAdmin && (
+              <SheetClose asChild>
+                <Link href="/admin" className="text-lg">
+                  Admin
+                </Link>
+              </SheetClose>
+            )}
+            {isLoaded && user ? (
+              <UserButton />
+            ) : isLoaded ? (
+              <div className="flex flex-col items-center gap-3">
+                <Button
+                  variant="outline"
+                  className="rounded-lg border-[#112a06] px-4 py-4 font-medium text-[#112a06]"
+                >
+                  <Link href="/auth/sign-in">Sign in</Link>
+                </Button>
+                <Button className="rounded-lg bg-[#112a06] px-4 py-4 font-medium text-white hover:bg-[#244d32]">
+                  <Link href="/auth/sign-up">Sign up</Link>
+                </Button>
+              </div>
+            ) : null}
           </nav>
 
           <Separator className="mt-10 w-2/3 bg-black/20" />

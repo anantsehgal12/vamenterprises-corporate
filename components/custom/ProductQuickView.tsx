@@ -146,8 +146,9 @@ export function ProductQuickView({ product, open, onOpenChange, footerAction, sh
   return <Dialog open={open} onOpenChange={onOpenChange}>
     <DialogContent container={portalContainer ?? undefined} showCloseButton={false} className="flex h-[min(94dvh,900px)] w-[calc(100%-1rem)] max-w-7xl flex-col gap-0 overflow-hidden rounded-2xl border border-border bg-card p-0 text-card-foreground shadow-2xl transition-[opacity,transform] duration-300 ease-out data-open:zoom-in-90 data-closed:zoom-out-95 motion-reduce:animate-none motion-reduce:transition-none sm:max-w-7xl sm:rounded-2xl md:h-auto md:aspect-[2/1] md:max-h-[92dvh]">
       <DialogDescription className="sr-only">Product images, pricing, availability, and details</DialogDescription>
-      {product && <div className="grid min-h-0 flex-1 grid-rows-[minmax(0,1fr)_minmax(0,1fr)] overflow-hidden md:grid-cols-2 md:grid-rows-1">
-          <div className="relative min-h-0 aspect-square w-full overflow-hidden bg-muted/20 md:h-full md:aspect-auto">
+      <DialogClose asChild><Button variant="ghost" size="icon" aria-label="Close product details" className="absolute right-4 top-4 z-20 size-9 rounded-full text-muted-foreground hover:bg-brand-accent/10 hover:text-brand-accent max-md:bg-background/85 max-md:shadow-md max-md:backdrop-blur sm:right-6 sm:top-5"><X className="size-4"/></Button></DialogClose>
+      {product && <div className="flex min-h-0 flex-1 flex-col overflow-y-auto overscroll-contain md:grid md:grid-cols-2 md:grid-rows-1 md:overflow-hidden">
+          <div className="relative aspect-square w-full shrink-0 overflow-hidden bg-muted/20 md:h-full md:min-h-0 md:aspect-auto md:shrink">
             {images.length ? <Image src={images[activeImage] ?? images[0]} alt={product.name} fill unoptimized sizes="(max-width: 768px) 100vw, 50vw" className="object-cover"/> : <div className="grid size-full place-items-center text-muted-foreground"><Package className="size-14 text-brand-accent/70"/></div>}
             {images.length > 1 && <>
               <div className="pointer-events-none absolute inset-x-0 top-0 h-20 bg-gradient-to-b from-black/45 to-transparent"/>
@@ -160,13 +161,12 @@ export function ProductQuickView({ product, open, onOpenChange, footerAction, sh
             </>}
           </div>
 
-          <section className="flex min-h-0 flex-col overflow-hidden bg-card text-foreground md:border-l md:border-border">
-            <DialogHeader className="relative shrink-0 border-b border-brand-accent/20 bg-card px-5 py-4 pr-16 text-left sm:px-7 sm:py-5">
-              <DialogClose asChild><Button variant="ghost" size="icon" aria-label="Close product details" className="absolute right-4 top-4 size-9 rounded-full text-muted-foreground hover:bg-brand-accent/10 hover:text-brand-accent sm:right-6 sm:top-5"><X className="size-4"/></Button></DialogClose>
+          <section className="flex shrink-0 flex-col bg-card text-foreground md:min-h-0 md:shrink md:overflow-hidden md:border-l md:border-border">
+            <DialogHeader className="shrink-0 border-b border-brand-accent/20 bg-card px-5 py-4 text-left sm:px-7 sm:py-5 md:pr-16">
               <p className="text-xs font-semibold uppercase tracking-[.15em] text-brand-accent">Product quick view</p>
               <DialogTitle className="max-w-[calc(100%-1rem)] text-xl font-semibold leading-tight tracking-tight text-foreground sm:text-2xl">{product.name}</DialogTitle>
             </DialogHeader>
-            <div className="min-h-0 flex-1 overflow-y-auto p-5 sm:p-7">
+            <div className="p-5 sm:p-7 md:min-h-0 md:flex-1 md:overflow-y-auto">
               <div className="rounded-xl border border-brand-accent/20 bg-brand-accent/5 p-4">
                 <p className="text-xs font-semibold uppercase tracking-wide text-brand-accent">Price</p>
                 <div className="mt-1 flex flex-wrap items-baseline gap-x-3 gap-y-1">
