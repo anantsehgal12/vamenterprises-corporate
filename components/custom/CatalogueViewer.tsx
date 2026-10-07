@@ -17,7 +17,7 @@ import Giftbox from "@/assets/box.png";
 import StarOne from "@/assets/star1_(1).png";
 import StarTwo from "@/assets/star2_(1).png";
 
-type Product = { id: number; name: string; slug: string; description: string | null; images: unknown; mrp: string | number; moq: number | null; brand_name: string | null; brand_logo_url: string | null; category_name: string | null; tags?: unknown };
+type Product = { id: number; name: string; slug: string; description: string | null; images: unknown; mrp: string | number; brand_name: string | null; brand_logo_url: string | null; category_name: string | null; tags?: unknown };
 function imageUrl(value: unknown) {
   if (typeof value === "string") {
     const stringValue = value;
