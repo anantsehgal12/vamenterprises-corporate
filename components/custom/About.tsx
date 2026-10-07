@@ -4,7 +4,6 @@ export default function About() {
   return (
     <section className="bg-gradient-to-b py-35 from-[#FFFFFF] to-[#5b8363] text-center">
       <h1 className="text-7xl font-bold bg-gradient-to-b from-black to-[#254f13] text-transparent bg-clip-text py-10">About Us</h1>
-
       <div className="mt-10 flex justify-center px-5">
         {/* Main Card */}
         <div className="grid w-full max-w-6xl overflow-hidden rounded-[2rem] bg-white shadow-xl lg:grid-cols-2">
