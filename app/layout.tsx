@@ -4,6 +4,7 @@ import { ClerkProvider } from "@clerk/nextjs"
 import "./globals.css";
 import { cn } from "@/lib/utils";
 import { SpringCursorFollow } from "@/components/custom/spring-cursor-follow";
+import { Analytics } from "@vercel/analytics/next"
 
 const dynaPuff = DynaPuff({
   subsets: ["latin"],
@@ -32,6 +33,7 @@ export default function RootLayout({
     >
       <body className="min-h-full flex flex-col">
         <ClerkProvider>
+          <Analytics />
           <SpringCursorFollow />
           {children}
         </ClerkProvider>
