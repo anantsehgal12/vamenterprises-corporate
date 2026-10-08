@@ -167,7 +167,7 @@ export function ProductQuickView({ product, open, onOpenChange, footerAction, sh
             </DialogHeader>
             <div className="p-5 sm:p-7 md:min-h-0 md:flex-1 md:overflow-y-auto">
               <div className="rounded-xl border border-brand-accent/20 bg-brand-accent/5 p-4">
-                <p className="text-xs font-semibold uppercase tracking-wide text-brand-accent">Price</p>
+                <p className="text-xs font-semibold uppercase tracking-wide text-brand-accent">MRP</p>
                 <div className="mt-1 flex flex-wrap items-baseline gap-x-3 gap-y-1">
                   <span className="text-2xl font-semibold tracking-tight text-foreground">{mrp ?? "Price unavailable"}</span><p className="w-full pt-1 text-xs text-muted-foreground">Need bulk pricing? Raise a query below for a quote.</p>
                   
@@ -198,7 +198,7 @@ export function ProductQuickView({ product, open, onOpenChange, footerAction, sh
                       <div className="space-y-1.5"><Label htmlFor={`quick-query-quantity-${product.id}`} className="text-foreground">Quantity <span className="text-destructive">*</span></Label><Input id={`quick-query-quantity-${product.id}`} name="quantity" type="number" inputMode="numeric" required min={Math.max(1, Number(1))} max={1000000} defaultValue={Math.max(1, Number(1))} className="h-10 border-input bg-background text-foreground focus-visible:border-brand-accent focus-visible:ring-brand-accent/20"/></div>
                     </div>
                     <div className="space-y-1.5"><Label htmlFor={`quick-query-call-time-${product.id}`} className="text-foreground">Suitable date and time for a call <span className="text-destructive">*</span></Label><DateTimePicker id={`quick-query-call-time-${product.id}`} value={preferredCallAt} onChange={setPreferredCallAt} placeholder="Choose a date and time" className="h-10"/></div>
-                    <div className="space-y-1.5"><Label htmlFor={`quick-query-notes-${product.id}`} className="text-foreground">Message <span className="text-muted-foreground">(optional)</span></Label><Textarea id={`quick-query-notes-${product.id}`} name="notes" maxLength={1000} placeholder="Anything else we should know?" className="max-h-24 min-h-16 resize-y border-input bg-background text-foreground placeholder:text-muted-foreground focus-visible:border-brand-accent focus-visible:ring-brand-accent/20"/></div>
+                    <div className="space-y-1.5"><Label htmlFor={`quick-query-notes-${product.id}`} className="text-foreground">Message <span className="text-muted-foreground">(optional)</span></Label><Textarea id={`quick-query-notes-${product.id}`} name="notes" maxLength={1000} placeholder="Anything else we should know?" className="max-h-24 min-h-16 resize-y border-input bg-bacpricekground text-foreground placeholder:text-muted-foreground focus-visible:border-brand-accent focus-visible:ring-brand-accent/20"/></div>
                   </form>}
                 </div>}
               </div>}

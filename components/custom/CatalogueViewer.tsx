@@ -198,11 +198,11 @@ export function CatalogueViewer({ slug, publicCatalogue = false }: { slug?: stri
           </div>
           <CardContent className="relative space-y-2 p-2.5 sm:p-3">
             <div className="min-h-[4.25rem]">
-              <h2 className="line-clamp-2 text-xs font-semibold leading-5 text-card-foreground transition-colors group-hover/card:text-brand-accent sm:text-sm">{product.name}</h2>
+              <h2 className="line-clamp-2 text-xl font-semibold leading-5 text-card-foreground transition-colors group-hover/card:text-brand-accent sm:text-xl">{product.name}</h2>
               {(product.brand_name || product.category_name) && <div className="mt-2 flex min-w-0 flex-wrap items-center gap-x-2 gap-y-1 text-[11px] text-muted-foreground"><span className="truncate font-medium text-foreground/80">{product.brand_name || ""}</span>{product.brand_name && product.category_name && <span aria-hidden="true" className="text-brand-accent">•</span>}<span className="truncate">{product.category_name || ""}</span></div>}
             </div>
             <div className="flex items-end justify-between gap-3 border-t border-border/70 pt-2.5">
-              <div><p className="text-[10px] font-medium uppercase tracking-[.12em] text-muted-foreground">Price</p><p className="mt-0.5 text-base font-semibold tracking-tight text-foreground text-xl">₹{Number(product.mrp).toLocaleString("en-IN")}</p></div>
+              <div><p className="text-[10px] font-medium uppercase tracking-[.12em] text-muted-foreground">MRP</p><p className="mt-0.5 text-base font-semibold tracking-tight text-foreground text-xl">₹{Number(product.mrp).toLocaleString("en-IN")}</p></div>
               <span aria-hidden="true" className="mb-1 grid size-8 place-items-center rounded-full border border-border text-muted-foreground transition-all duration-300 group-hover/card:border-brand-accent/30 group-hover/card:bg-brand-accent/10 group-hover/card:text-brand-accent"><ArrowRight className="size-4 transition-transform duration-300 group-hover/card:translate-x-0.5"/></span>
             </div>
           </CardContent>
