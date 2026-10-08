@@ -30,7 +30,7 @@ export async function GET(_request: NextRequest, { params }: Context) {
         price_desc: `p."mrp" DESC, p."id" DESC`,
         name_asc: `p."name" ASC`,
       };
-      products = await sql.query(`SELECT p."id", p."name", p."slug", p."description", p."images", p."mrp", p."moq", b."name" AS brand_name, b."logo_url" AS brand_logo_url, c."name" AS category_name FROM "products" p LEFT JOIN "brands" b ON b."id" = p."brand_id" LEFT JOIN "categories" c ON c."id" = p."category_id" WHERE p."id" IN (${placeholders}) AND p."is_active" = true ORDER BY ${orderBy[link.default_sort] ?? orderBy.newest}`, ids);
+      products = await sql.query(`SELECT p."id", p."name", p."slug", p."description", p."images", p."mrp", p."special_price", b."name" AS brand_name, b."logo_url" AS brand_logo_url, c."name" AS category_name FROM "products" p LEFT JOIN "brands" b ON b."id" = p."brand_id" LEFT JOIN "categories" c ON c."id" = p."category_id" WHERE p."id" IN (${placeholders}) AND p."is_active" = true ORDER BY ${orderBy[link.default_sort] ?? orderBy.newest}`, ids);
     }
     await sql.query(`UPDATE "catalogue_links" SET "view_count" = "view_count" + 1 WHERE "id" = $1`, [link.id]);
     await sql.query(`INSERT INTO "link_views" ("catalogue_link_id") VALUES ($1)`, [link.id]);

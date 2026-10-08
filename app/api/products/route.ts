@@ -5,6 +5,13 @@ import { auth } from "@clerk/nextjs/server";
 import { isAdmin } from "@/lib/auth";
 import { desc } from "drizzle-orm";
 
+// Special price is optional and always stored with a leading ₹ (e.g. "₹1,499"); empty -> null
+const normalizeSpecialPrice = (value: unknown) => {
+  if (typeof value !== "string") return null;
+  const rest = value.replace(/^[\s₹]+/, "").trim();
+  return rest ? `₹${rest}` : null;
+};
+
 // ---------------------------------------------
 // GET /api/products  — list all products (public, e.g. for storefront)
 // ---------------------------------------------
@@ -36,11 +43,11 @@ export async function POST(req: NextRequest) {
 
   try {
     const body = await req.json();
-    const { name, slug, description, moq, mrp, images, categoryId, brandId, stockStatus, tags } = body;
+    const { name, slug, description, specialPrice, mrp, images, categoryId, brandId, stockStatus, tags } = body;
 
-    if (!name || !slug || mrp === undefined || mrp === null || !moq) {
+    if (!name || !slug || mrp === undefined || mrp === null) {
       return NextResponse.json(
-        { error: "Missing required fields: name, slug, mrp and moq are required" },
+        { error: "Missing required fields: name, slug and mrp are required" },
         { status: 400 }
       );
     }
@@ -51,7 +58,7 @@ export async function POST(req: NextRequest) {
         name,
         slug,
         description: description || null,
-        moq,
+        specialPrice: normalizeSpecialPrice(specialPrice),
         mrp,
         images: images ?? [],
         categoryId: categoryId ?? null,

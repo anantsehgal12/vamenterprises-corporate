@@ -2,12 +2,12 @@
 import ArrowRight from "@/assets/arrow-right.svg";
 import Logo from "@/assets/logo_ico.png";
 import Image from "next/image";
-import MenuIcon from "@/assets/menu.svg";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { Link001 } from "@/components/ui/skiper-ui/skiper40";
 import Sidebar from "@/components/custom/sidebar";
-import { SignInButton, SignUpButton, UserButton, useUser } from "@clerk/nextjs";
+import { UserButton, useUser } from "@clerk/nextjs";
+
 
 export default function Header() {
   const { user, isLoaded } = useUser();

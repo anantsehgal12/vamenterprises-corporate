@@ -78,13 +78,12 @@ export async function POST(request: NextRequest) {
   try {
     const rows = await sql.query(
       `WITH available_product AS MATERIALIZED (
-         SELECT id, moq FROM products WHERE id = $1 AND is_active = TRUE
+         SELECT id FROM products WHERE id = $1 AND is_active = TRUE
        ), created_query AS (
          INSERT INTO bulk_queries (query_type, catalogue_link_id, name, company_name, contact_no, email, preferred_call_at, status, notes)
          SELECT 'catalogue', $7::integer, $2, NULLIF($3, ''), $4, NULLIF($8, ''), $9::timestamp without time zone, 'new'::query_status, NULLIF($5, '')
          FROM available_product
-         WHERE $6 >= available_product.moq
-           AND ($7::integer IS NULL OR EXISTS (SELECT 1 FROM catalogue_links WHERE id = $7::integer AND is_active = TRUE AND product_ids @> jsonb_build_array($1::integer)))
+         WHERE ($7::integer IS NULL OR EXISTS (SELECT 1 FROM catalogue_links WHERE id = $7::integer AND is_active = TRUE AND product_ids @> jsonb_build_array($1::integer)))
          RETURNING id
        ), created_item AS (
          INSERT INTO bulk_query_items (bulk_query_id, product_id, quantity)
@@ -97,7 +96,7 @@ export async function POST(request: NextRequest) {
     ) as Array<{ id: number }>;
 
     if (!rows.length) {
-      return NextResponse.json({ error: "This product is unavailable, is not in this catalogue, or the quantity is below its minimum order." }, { status: 400 });
+      return NextResponse.json({ error: "This product is unavailable or is not in this catalogue." }, { status: 400 });
     }
 
     return NextResponse.json({ ok: true, enquiryId: rows[0].id }, { status: 201 });

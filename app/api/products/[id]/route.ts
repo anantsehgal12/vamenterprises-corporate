@@ -7,6 +7,13 @@ import { eq } from "drizzle-orm";
 
 type Params = { params: Promise<{ id: string }> };
 
+// Special price is optional and always stored with a leading ₹ (e.g. "₹1,499"); empty -> null
+const normalizeSpecialPrice = (value: unknown) => {
+  if (typeof value !== "string") return null;
+  const rest = value.replace(/^[\s₹]+/, "").trim();
+  return rest ? `₹${rest}` : null;
+};
+
 // ---------------------------------------------
 // GET /api/products/[id]  — fetch a single product (public)
 // ---------------------------------------------
@@ -54,13 +61,13 @@ export async function PATCH(req: NextRequest, { params }: Params) {
 
   try {
     const body = await req.json();
-    const { name, slug, description, moq, mrp, images, categoryId, brandId, stockStatus, tags, isActive } = body;
+    const { name, slug, description, specialPrice, mrp, images, categoryId, brandId, stockStatus, tags, isActive } = body;
 
     const updateData: Record<string, unknown> = { updatedAt: new Date() };
     if (name !== undefined) updateData.name = name;
     if (slug !== undefined) updateData.slug = slug;
     if (description !== undefined) updateData.description = description;
-    if (moq !== undefined) updateData.moq = moq;
+    if (specialPrice !== undefined) updateData.specialPrice = normalizeSpecialPrice(specialPrice);
     if (mrp !== undefined) updateData.mrp = mrp;
     if (images !== undefined) updateData.images = images;
     if (categoryId !== undefined) updateData.categoryId = categoryId;

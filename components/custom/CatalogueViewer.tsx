@@ -17,7 +17,7 @@ import Giftbox from "@/assets/box.png";
 import StarOne from "@/assets/star1_(1).png";
 import StarTwo from "@/assets/star2_(1).png";
 
-type Product = { id: number; name: string; slug: string; description: string | null; images: unknown; mrp: string | number; brand_name: string | null; brand_logo_url: string | null; category_name: string | null; tags?: unknown };
+type Product = { id: number; name: string; slug: string; description: string | null; images: unknown; mrp: string | number; special_price?: string | null; brand_name: string | null; brand_logo_url: string | null; category_name: string | null; tags?: unknown };
 function imageUrl(value: unknown) {
   if (typeof value === "string") {
     const stringValue = value;
@@ -165,7 +165,7 @@ export function CatalogueViewer({ slug, publicCatalogue = false }: { slug?: stri
               <h2 className="mt-4 text-3xl font-bold leading-[1.08] tracking-tight text-[#10270d] sm:text-4xl md:text-5xl">Our Showcase <span className="block bg-gradient-to-r from-[#2d6918] to-[#61a83b] bg-clip-text text-transparent">for You</span></h2>
               <p className="mt-4 max-w-lg text-sm leading-6 text-[#294c24] sm:text-base sm:leading-7">Thoughtful finds, standout gifts, and useful essentials—brought together in one handpicked collection.</p>
               <Button type="button" onClick={() => document.getElementById("catalogue-search-filters")?.scrollIntoView({ behavior: "smooth", block: "center" })} className="mt-6 h-11 gap-2 rounded-xl bg-[#173b0c] px-5 font-semibold text-white shadow-md shadow-[#173b0c]/15 transition-all hover:-translate-y-0.5 hover:bg-[#245c12]">Explore the collection<ArrowRight className="size-4"/></Button>
-              <p className="mt-5 max-w-xl text-sm font-bold leading-5 text-[#31552b] sm:mt-6 sm:text-base sm:leading-6"> * Prices shown are MRP. For bulk pricing, open a product and fill out the query form. * </p>
+              <p className="mt-5 max-w-xl text-sm font-bold leading-5 text-[#31552b] sm:mt-6 sm:text-base sm:leading-6"> * Prices shown are MRP unless a special price is listed. For bulk pricing, open a product and fill out the query form. * </p>
             </div>
           </div>
           <div aria-hidden="true" className="pointer-events-none absolute inset-y-0 right-0 hidden w-[48%] sm:block">
@@ -202,7 +202,7 @@ export function CatalogueViewer({ slug, publicCatalogue = false }: { slug?: stri
               {(product.brand_name || product.category_name) && <div className="mt-2 flex min-w-0 flex-wrap items-center gap-x-2 gap-y-1 text-[11px] text-muted-foreground"><span className="truncate font-medium text-foreground/80">{product.brand_name || ""}</span>{product.brand_name && product.category_name && <span aria-hidden="true" className="text-brand-accent">•</span>}<span className="truncate">{product.category_name || ""}</span></div>}
             </div>
             <div className="flex items-end justify-between gap-3 border-t border-border/70 pt-2.5">
-              <div><p className="text-[10px] font-medium uppercase tracking-[.12em] text-muted-foreground">MRP</p><p className="mt-0.5 text-base font-semibold tracking-tight text-foreground text-xl">₹{Number(product.mrp).toLocaleString("en-IN")}</p></div>
+              <div><p className="text-[10px] font-medium uppercase tracking-[.12em] text-muted-foreground">{product.special_price?.trim() ? "Price" : "MRP"}</p><p className="mt-0.5 flex flex-wrap items-baseline gap-x-2 text-base font-semibold tracking-tight text-foreground text-xl">{product.special_price?.trim() ? <><span className="text-sm font-normal text-muted-foreground line-through">₹{Number(product.mrp).toLocaleString("en-IN")}</span><span className="text-brand-accent">{product.special_price.trim()}</span></> : <>₹{Number(product.mrp).toLocaleString("en-IN")}</>}</p></div>
               <span aria-hidden="true" className="mb-1 grid size-8 place-items-center rounded-full border border-border text-muted-foreground transition-all duration-300 group-hover/card:border-brand-accent/30 group-hover/card:bg-brand-accent/10 group-hover/card:text-brand-accent"><ArrowRight className="size-4 transition-transform duration-300 group-hover/card:translate-x-0.5"/></span>
             </div>
           </CardContent>
