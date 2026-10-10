@@ -84,7 +84,8 @@ export function ProductQuickView({ product, open, onOpenChange, footerAction, sh
   );
   const images = imageUrls(product?.images);
   const tags = stringList(product?.tags);
-  const mrp = money(product?.mrp);
+  const hasMrp = Number(product?.mrp) > 0;
+  const mrp = hasMrp ? money(product?.mrp) : null;
   const specialPrice = (product?.specialPrice ?? product?.special_price)?.trim() || null;
   const stockStatus = product?.stockStatus ?? product?.stock_status ?? "in_stock";
   const isActive = product?.isActive ?? product?.is_active ?? true;
@@ -172,7 +173,7 @@ export function ProductQuickView({ product, open, onOpenChange, footerAction, sh
               <div className="rounded-xl border border-brand-accent/20 bg-brand-accent/5 p-4">
                 <p className="text-xs font-semibold uppercase tracking-wide text-brand-accent">{specialPrice ? "Price" : "MRP"}</p>
                 <div className="mt-1 flex flex-wrap items-baseline gap-x-3 gap-y-1">
-                  {specialPrice ? <><span className="text-lg font-normal tracking-tight text-muted-foreground line-through">{mrp}</span><span className="text-2xl font-semibold tracking-tight text-brand-accent">{specialPrice}</span></> : <span className="text-2xl font-semibold tracking-tight text-foreground">{mrp ?? "Price unavailable"}</span>}<p className="w-full pt-1 text-xs text-muted-foreground">Need bulk pricing? Raise a query below for a quote.</p>
+                  {specialPrice ? <>{mrp && <span className="text-lg font-normal tracking-tight text-muted-foreground line-through">{mrp}</span>}<span className="text-2xl font-semibold tracking-tight text-brand-accent">{specialPrice}</span></> : <span className="text-2xl font-semibold tracking-tight text-foreground">{mrp ?? "Price unavailable"}</span>}<p className="w-full pt-1 text-xs text-muted-foreground">Need bulk pricing? Raise a query below for a quote.</p>
                   
                 </div>
               </div>
